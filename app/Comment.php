@@ -53,10 +53,10 @@ class Comment extends Model
     }
 
     /**
-     * Add a record in news table
+     * Add a record in comments table
      *
-     * @param $title
      * @param $body
+     * @param $news_id
      * @return mixed
      */
     public static function add($body, $news_id)
