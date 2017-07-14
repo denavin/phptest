@@ -12,7 +12,8 @@ class News extends Model
      * @var array
      */
     protected $fillable = [
-        'title','body'
+        'title',
+        'body'
     ];
 
 
@@ -25,4 +26,41 @@ class News extends Model
     {
         return $this->hasMany('App\Comment');
     }
+
+    /**
+     * List all existent news in a collection
+     * with eloquent, this method is useless and can be used directly by News::all()
+     * I do it here just for the example
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public static function list()
+    {
+        return News::all();
+    }
+
+    /**
+     * Delete a news with the linked comments
+     *
+     * @param $id
+     * @return mixed
+     */
+    public static function deleteNewsWithComments($news_id)
+    {
+        Comment::where('news_id',$news_id)->delete();
+        return News::find($news_id)->delete();
+    }
+
+    /**
+     * Add a record in news table
+     *
+     * @param $title
+     * @param $body
+     * @return mixed
+     */
+    public static function add($title, $body)
+    {
+        return News::create(['title' => $title, 'body' => $body]);
+    }
+
 }
