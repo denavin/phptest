@@ -16,7 +16,6 @@ class News extends Model
         'body'
     ];
 
-
     /**
      * A news can have many comments
      *
@@ -25,6 +24,54 @@ class News extends Model
     public function comments()
     {
         return $this->hasMany('App\Comment');
+    }
+
+    /**
+     * Get the News title.
+     *
+     * @param  string $value
+     * @return string
+     */
+    public function getTitleAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
+    /**
+     * Get the News body.
+     *
+     * @param  string $value
+     * @return string
+     */
+    public function getBodyAttribute($value)
+    {
+        return nl2br($value);
+    }
+
+    /**
+     * Set the News title.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setTitleAttribute($value)
+    {
+        if ($value !== null) {
+            $this->attributes['title'] = ucfirst($value);
+        }
+    }
+
+    /**
+     * Set the News body.
+     *
+     * @param  string $value
+     * @return void
+     */
+    public function setBodyAttribute($value)
+    {
+        if ($value !== null) {
+            $this->attributes['body'] = ucfirst($value);
+        }
     }
 
     /**
@@ -47,7 +94,7 @@ class News extends Model
      */
     public static function deleteNewsWithComments($news_id)
     {
-        Comment::where('news_id',$news_id)->delete();
+        Comment::where('news_id', $news_id)->delete();
         return News::find($news_id)->delete();
     }
 
